@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+
+    <link rel="stylesheet" href="register.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400..800&family=SN+Pro:ital,wght@0,200..900;1,200..900&family=Special+Gothic+Expanded+One&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<form novalidate>
+
+    <h1>Create New Account</h1>
+
+
+    <!-- STEP 1 -->
+    <div id="step1">
+
+        <select id="role" onchange="isStudent()">
+            <option value="" selected disabled hidden>
+                Choose your role
+            </option>
+
+            <option value="Student">
+                Student
+            </option>
+
+            <option value="Lecturer">
+                Lecturer
+            </option>
+        </select>
+
+
+        <div id="student-info" style="display:none;">
+
+            <select id="university">
+                <option value="" selected disabled hidden>
+                    Study University
+                </option>
+
+                <option>
+                    JU University
+                </option>
+
+                <option>
+                    BAU University
+                </option>
+
+                <option>
+                    JUST University
+                </option>
+
+                <option>
+                    HU University
+                </option>
+            </select>
+
+
+            <select id="year">
+                <option value="" selected disabled hidden>
+                    Current Year
+                </option>
+
+                <option>
+                    1st Year
+                </option>
+
+                <option>
+                    2nd Year
+                </option>
+
+                <option>
+                    3rd Year
+                </option>
+
+                <option>
+                    4th Year
+                </option>
+
+                <option>
+                    5th Year
+                </option>
+
+                <option>
+                    6th Year
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button type="button" onclick="nextStep()">
+            Next
+        </button>
+
+    </div>
+
+
+
+    <!-- STEP 2 -->
+    <div id="step2" style="display:none;">
+
+
+        <label>Email</label>
+        <input required type="email" id="email">
+
+
+        <label>Phone Number</label>
+        <input type="tel" id="phone">
+
+
+        <label>Password</label>
+        <input type="password" id="password">
+
+
+        <label>Confirm Password</label>
+        <input type="password" id="confirmPassword">
+
+
+        <button type="button" onclick="goToStep(1)">
+            Go Back
+        </button>
+
+
+        <button type="button" onclick="submitForm()">
+            Sign Up
+        </button>
+
+
+    </div>
+
+
+</form>
+
+
+
+<script>
+
+
+function goToStep(step){
+
+    const step1 = document.getElementById("step1");
+    const step2 = document.getElementById("step2");
+
+
+    if(step === 1){
+
+        step1.style.display = "block";
+        step2.style.display = "none";
+
+    }
+    else{
+
+        step1.style.display = "none";
+        step2.style.display = "block";
+
+    }
+
+}
+
+
+
+function nextStep(){
+
+    const role = document.getElementById("role").value;
+
+
+    if(!role){
+
+        alert("Please select your role first.");
+        return;
+
+    }
+
+
+    if(role === "Student"){
+
+        const university = document.getElementById("university").value;
+        const year = document.getElementById("year").value;
+
+
+        if(!university || !year){
+
+            alert("Please complete your university information.");
+            return;
+
+        }
+
+    }
+
+
+    goToStep(2);
+
+}
+
+
+
+
+function isStudent(){
+
+    const role = document.getElementById("role").value;
+    const studentInfo = document.getElementById("student-info");
+
+
+    if(role === "Student"){
+
+        studentInfo.style.display = "block";
+
+    }
+    else{
+
+        studentInfo.style.display = "none";
+
+    }
+
+}
+
+
+
+
+function submitForm(){
+
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+
+
+    if(!email || !phone || !password || !confirmPassword){
+
+        alert("Please fill all fields.");
+        return;
+
+    }
+
+
+
+    if(password !== confirmPassword){
+
+        alert("Passwords do not match.");
+        return;
+
+    }
+
+
+
+    alert("Account created successfully!");
+
+}
+
+
+</script>
+
+
+</body>
+</html>

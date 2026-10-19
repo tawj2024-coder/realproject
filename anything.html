@@ -1,0 +1,518 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create account</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --orange: #f97316;
+      --blue: #0065ac;
+      --navy: #0f213c;
+      --darkest: #020c1b;
+      --dark-blue: #0b2545;
+      --mid-blue: #13315c;
+      --error: #e11d48;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px;
+      display: grid;
+      place-items: center;
+      font-family: "Poppins", sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(249, 115, 22, 0.16), transparent 30%),
+        linear-gradient(135deg, var(--darkest), var(--dark-blue), var(--mid-blue));
+    }
+
+    .layout {
+      width: min(980px, 100%);
+      min-height: 570px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      border-radius: 22px;
+      background: white;
+      box-shadow: 0 28px 65px rgba(2, 12, 27, 0.48);
+    }
+
+    /* Left side: sign-up form */
+    .signup-area {
+      display: flex;
+      align-items: center;
+      padding: 42px;
+      background: #ffffff;
+    }
+
+    form {
+      width: 100%;
+      max-width: 350px;
+      margin: auto;
+    }
+
+    h1 {
+      margin: 0 0 7px;
+      color: var(--navy);
+      font-size: 27px;
+      letter-spacing: -0.8px;
+    }
+
+    .subtitle {
+      margin: 0 0 28px;
+      color: #718096;
+      font-size: 13px;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    input,
+    select {
+      width: 100%;
+      height: 47px;
+      padding: 0 13px;
+      border: 1px solid #d7e0ea;
+      border-radius: 7px;
+      background: #f7fafc;
+      color: var(--navy);
+      font: inherit;
+      font-size: 13px;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    input::placeholder {
+      color: #a7b3c2;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--blue);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(0, 101, 172, 0.14);
+    }
+
+    .password-box {
+      position: relative;
+    }
+
+    .password-box input {
+      padding-right: 58px;
+    }
+
+    .show-password {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      padding: 5px;
+      border: 0;
+      color: var(--blue);
+      background: transparent;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transform: translateY(-50%);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    button {
+      height: 48px;
+      border: 0;
+      border-radius: 7px;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .primary-button {
+      flex: 1;
+      background: var(--blue);
+      color: white;
+      box-shadow: 0 8px 16px rgba(0, 101, 172, 0.25);
+    }
+
+    .primary-button:hover {
+      background: #00538d;
+      transform: translateY(-1px);
+    }
+
+    .back-button {
+      width: 100px;
+      border: 1px solid #d7e0ea;
+      background: #ffffff;
+      color: var(--navy);
+    }
+
+    .back-button:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .login-link {
+      margin: 27px 0 0;
+      color: #718096;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .login-link a {
+      color: var(--orange);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .login-link a:hover {
+      color: var(--blue);
+      text-decoration: underline;
+    }
+
+    .message {
+      display: none;
+      margin: 0 0 18px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      color: #b42318;
+      background: #fff1f1;
+      font-size: 12px;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    /* Right side: logo and welcome content */
+    .welcome-panel {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 42px;
+      overflow: hidden;
+      color: white;
+      background: linear-gradient(150deg, var(--darkest), var(--dark-blue));
+    }
+
+    .welcome-panel::before {
+      content: "";
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      right: -140px;
+      bottom: -130px;
+      border: 54px solid rgba(249, 115, 22, 0.95);
+      border-radius: 50%;
+    }
+
+    .welcome-panel::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      top: 95px;
+      right: 45px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 50%;
+    }
+
+    .brand,
+    .panel-copy {
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand {
+      color: white;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    .brand span {
+      color: var(--orange);
+    }
+
+    .panel-copy h2 {
+      max-width: 300px;
+      margin: 0 0 14px;
+      font-size: 35px;
+      line-height: 1.18;
+      letter-spacing: -1.4px;
+    }
+
+    .panel-copy p {
+      max-width: 300px;
+      margin: 0;
+      color: #c5d5e4;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 720px) {
+      .layout {
+        max-width: 430px;
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-panel {
+        order: -1;
+        min-height: 190px;
+        padding: 28px;
+      }
+
+      .panel-copy h2 {
+        margin-top: 28px;
+        font-size: 25px;
+      }
+
+      .panel-copy p {
+        display: none;
+      }
+
+      .signup-area {
+        padding: 34px 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="layout">
+    <!-- Left: sign-up form -->
+    <section class="signup-area">
+      <form id="signup-form" novalidate>
+        <h1>Create your account</h1>
+        <p class="subtitle">It only takes a minute to get started.</p>
+
+        <p class="message" id="message"></p>
+
+        <!-- First step -->
+        <div class="step active" id="step1">
+          <div class="field">
+            <label for="role">I am a</label>
+            <select id="role">
+              <option value="" selected disabled>Choose your role</option>
+              <option value="Student">Student</option>
+              <option value="Lecturer">Lecturer</option>
+            </select>
+          </div>
+
+          <div id="student-info" style="display: none;">
+            <div class="field">
+              <label for="university">University</label>
+              <select id="university">
+                <option value="" selected disabled>Select your university</option>
+                <option value="JU University">JU University</option>
+                <option value="BAU University">BAU University</option>
+                <option value="JUST University">JUST University</option>
+                <option value="HU University">HU University</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="year">Current year</label>
+              <select id="year">
+                <option value="" selected disabled>Select your current year</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+                <option value="5th Year">5th Year</option>
+                <option value="6th Year">6th Year</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="primary-button" type="button" id="next-button">
+              Continue
+            </button>
+          </div>
+        </div>
+
+        <!-- Second step -->
+        <div class="step" id="step2">
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" placeholder="+962 7X XXX XXXX" autocomplete="tel">
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="password-box">
+              <input type="password" id="password" placeholder="Create a password" autocomplete="new-password">
+              <button class="show-password" type="button" data-target="password">Show</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="confirm-password">Confirm password</label>
+            <div class="password-box">
+              <input type="password" id="confirm-password" placeholder="Confirm your password" autocomplete="new-password">
+              <button class="show-password" type="button" data-target="confirm-password">Show</button>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="back-button" type="button" id="back-button">Back</button>
+            <button class="primary-button" type="submit">Create account</button>
+          </div>
+        </div>
+
+        <p class="login-link">
+          Already have an account?
+          <a href="#">Login</a>
+        </p>
+      </form>
+    </section>
+
+    <!-- Right: logo and design space -->
+    <section class="welcome-panel">
+      <div class="brand">Logo<span>.</span></div>
+
+      <div class="panel-copy">
+        <h2>Start your journey with us.</h2>
+        <p>Create your account and access everything you need in one place.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const role = document.getElementById("role");
+    const studentInfo = document.getElementById("student-info");
+    const step1 = document.getElementById("step1");
+    const step2 = document.getElementById("step2");
+    const message = document.getElementById("message");
+
+    function showMessage(text) {
+      message.textContent = text;
+      message.classList.add("show");
+    }
+
+    function clearMessage() {
+      message.textContent = "";
+      message.classList.remove("show");
+    }
+
+    role.addEventListener("change", () => {
+      studentInfo.style.display = role.value === "Student" ? "block" : "none";
+      clearMessage();
+    });
+
+    document.getElementById("next-button").addEventListener("click", () => {
+      clearMessage();
+
+      if (!role.value) {
+        showMessage("Please select your role first.");
+        return;
+      }
+
+      if (role.value === "Student") {
+        const university = document.getElementById("university").value;
+        const year = document.getElementById("year").value;
+
+        if (!university || !year) {
+          showMessage("Please complete your university information.");
+          return;
+        }
+      }
+
+      step1.classList.remove("active");
+      step2.classList.add("active");
+    });
+
+    document.getElementById("back-button").addEventListener("click", () => {
+      clearMessage();
+      step2.classList.remove("active");
+      step1.classList.add("active");
+    });
+
+    document.querySelectorAll(".show-password").forEach((button) => {
+      button.addEventListener("click", () => {
+        const input = document.getElementById(button.dataset.target);
+        const hidden = input.type === "password";
+
+        input.type = hidden ? "text" : "password";
+        button.textContent = hidden ? "Hide" : "Show";
+      });
+    });
+
+    document.getElementById("signup-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      clearMessage();
+
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+
+      if (!email || !phone || !password || !confirmPassword) {
+        showMessage("Please fill in all account details.");
+        return;
+      }
+
+      if (!email.includes("@")) {
+        showMessage("Please enter a valid email address.");
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage("Your password must be at least 6 characters.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage("Passwords do not match.");
+        return;
+      }
+
+      alert("Account created successfully!");
+    });
+  </script>
+</body>
+</html>
